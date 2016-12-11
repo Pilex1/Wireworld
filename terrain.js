@@ -58,8 +58,22 @@ class Terrain {
     this.activate_toggleConductors = false;
   }
 
+  static cleanWorlds() {
+    var names = Object.getOwnPropertyNames(localStorage);
+    for (var i = 0; i < names.length; i++) {
+      var t = this.fromJSON(localStorage.names[i]);
+      if (!t) this.delete(names[i]);
+    }
+  }
+
   static fromJSON(json) {
-    var a = JSON.parse(json);
+    try {
+      var a = JSON.parse(json);
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+    
     var t = [];
     for (var i = 0; i < a.length; i++) {
       var t_1 = [];
@@ -91,7 +105,6 @@ class Terrain {
         }
       }
     }
-    if (!t) throw "Unable to parse JSON.";
     return t;
   }
 

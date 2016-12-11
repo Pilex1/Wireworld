@@ -94,6 +94,7 @@ class App {
     			document.getElementById("btn_copy").disabled = false;
     			document.getElementById("btn_move").disabled = false;
     			document.getElementById("btn_delete").disabled = false;
+                document.getElementById("btn_exportSelection").disabled = false;
     			if (Input.curMouse[0]) {
     				App.selection_pressed = "copied";
     				Terrain.removeSelection();
@@ -111,6 +112,7 @@ class App {
     			document.getElementById("btn_copy").disabled = true;
     			document.getElementById("btn_move").disabled = true;
     			document.getElementById("btn_delete").disabled = true;
+                document.getElementById("btn_exportSelection").disabled = true;
     			if (!Input.curMouse[0]) {
     				App.selection_pressed = "none";
     			}
@@ -127,6 +129,7 @@ class App {
 				document.getElementById("btn_copy").disabled = true;
     			document.getElementById("btn_move").disabled = true;
     			document.getElementById("btn_delete").disabled = true;
+                document.getElementById("btn_exportSelection").disabled = true;
     			App.selection_pressed = "none";
     			Terrain.setSelection(null, null, null, null, new Colour(0, 0, 0, 0));
                 Terrain.removeSelection();

@@ -123,7 +123,7 @@
 				<textarea id  = txtbx_importSelection type = text rows = 1 class = double_spaced style = "width: 200;" spellcheck = false></textarea><br>
 
 	        	<br>
-	        	<input type = "submit" value = "Export selection" class = double_spaced onclick = "
+	        	<input type = "submit" id = btn_exportSelection value = "Export selection" class = double_spaced disabled onclick = "
 	        		console.log('Exporting selection to JSON.');
 	        		Terrain.copySelection(); 
 	        		txtbx_exportSelection.value = Terrain.toJSON(Terrain.selection_copy);
@@ -141,11 +141,11 @@
 	        	<br><br>
 
 	       		<input id = "txtbx_saveWorld" type = "text" class = spaced value = "default" rows = 1 columns = 50 >
-	        	<input type = "submit" value = "Save world" class = spaced onclick = "Terrain.save(txtbx_saveWorld.value); updateWorlds();" >
+	        	<input type = "submit" value = "Save world" class = spaced onclick = "Terrain.save(txtbx_saveWorld.value); updateWorlds(txtbx_saveWorld.value);" >
 	        	<br>
 	        
 	        	<select id = "select_loadWorld" class = spaced ></select>
-	        	<input type = "submit" value = "Load world" class = spaced onclick = "Terrain.load(select_loadWorld.value);">
+	        	<input type = "submit" value = "Load world" class = spaced onclick = "Terrain.load(select_loadWorld.value); updateWorlds(select_loadWorld.value);">
 		    	<br>
 
 	        	<select id = "select_deleteWorld" class = spaced ></select>
@@ -155,7 +155,7 @@
 	        			updateWorlds();
 	        		}">
 	        	<script>
-	        		var updateWorlds = function() {
+	        		var updateWorlds = function(cur_world) {
 
 	        			select_loadWorld.options.length = 0;
 	        			select_deleteWorld.options.length = 0;
@@ -172,6 +172,10 @@
 		        			opt.innerHTML = names[i];
 		        			select_loadWorld.appendChild(opt);
 		        		}
+
+		        		select_loadWorld.value = cur_world || '';
+		        		select_deleteWorld.value = cur_world || '';
+		        		txtbx_saveWorld.value = cur_world || '';
 	        		}
 	        	</script>
 
