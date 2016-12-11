@@ -129,6 +129,7 @@ class App {
     			document.getElementById("btn_delete").disabled = true;
     			App.selection_pressed = "none";
     			Terrain.setSelection(null, null, null, null, new Colour(0, 0, 0, 0));
+                Terrain.removeSelection();
 				break;
     		case "none":
     			if (intersect === "invalid") break;

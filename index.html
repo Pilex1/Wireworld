@@ -76,13 +76,17 @@
 	        		width:100;
 	        		margin-bottom:4;
 	        	}</style>
+	        	<style type="text/css">.double_spaced {
+	        		width:200;
+	        		margin-bottom:4;
+	        	}</style>
 
 				<h2>Mechanics</h2>
 
-			    <input type = "submit" style = "width:200;margin-bottom:4" value = "Stabilise electrons" onclick = "Terrain.stabilise();">
+			    <input type = "submit" class = double_spaced value = "Stabilise electrons" onclick = "Terrain.stabilise();">
 			    <br>
 
-			    <input type = "submit" style = "width:200;margin-bottom:4" value = "Activate initialisers" onclick = "Terrain.activate_initialisers = true;">
+			    <input type = "submit" class = double_spaced value = "Activate initialisers" onclick = "Terrain.activate_initialisers = true;">
 			    <br>
 
 			    <input id = cbx_toggleConductors type = checkbox onclick = "Terrain.activate_toggleConductors = cbx_toggleConductors.checked"> <label style = "width:200;margin-bottom:4" >Activate Toggleable Conductors</label><br>
@@ -109,7 +113,23 @@
 			    		Terrain.deleteSelection(); 
 			    		App.selection_pressed = 'delete';
 			    	}
-			    ">
+			    "><br><br>
+
+			    <input type = "submit" value = "Import selection" class = double_spaced onclick = "
+			    	console.log('Importing selection from JSON.'); 
+			    	Terrain.selection_copy = Terrain.fromJSON(txtbx_importSelection.value);
+			    	App.selection_pressed = 'move';	
+			    "><br>
+				<textarea id  = txtbx_importSelection type = text rows = 1 class = double_spaced style = "width: 200;" spellcheck = false></textarea><br>
+
+	        	<br>
+	        	<input type = "submit" value = "Export selection" class = double_spaced onclick = "
+	        		console.log('Exporting selection to JSON.');
+	        		Terrain.copySelection(); 
+	        		txtbx_exportSelection.value = Terrain.toJSON(Terrain.selection_copy);
+	        		App.selection_pressed = 'delete';
+	        	"><br>
+	        	<textarea id  = txtbx_exportSelection type = text rows = 1 class = double_spaced style = "width: 200;" spellcheck = false></textarea>
 
 	        	<br><br>
 	       		<h2>Worlds</h2>
@@ -124,11 +144,11 @@
 	        	<input type = "submit" value = "Save world" class = spaced onclick = "Terrain.save(txtbx_saveWorld.value); updateWorlds();" >
 	        	<br>
 	        
-	        	<select id = "select_loadWorld"class = spaced ></select>
+	        	<select id = "select_loadWorld" class = spaced ></select>
 	        	<input type = "submit" value = "Load world" class = spaced onclick = "Terrain.load(select_loadWorld.value);">
 		    	<br>
 
-	        	<select id = "select_deleteWorld"class = spaced ></select>
+	        	<select id = "select_deleteWorld" class = spaced ></select>
 	        	<input type = "submit" value = "Delete world" class = spaced onclick = "
 	        		if (window.confirm('Are you sure you want to delete world: &quot;' + select_deleteWorld.value + '&quot;')) {
 	        			Terrain.delete(select_deleteWorld.value); 
@@ -158,12 +178,12 @@
 	        	<script>updateWorlds();</script>
 
 	        	<br><br>
-	        	<input type = "submit" value = "Import world" class = spaced onclick = "console.log('Importing world from JSON.'); Terrain.loadJSON(txtbx_importWorld.value);"><br>
-				<textarea id  = txtbx_importWorld type = text rows = 1 class = spaced style = "width: 200;" spellcheck = false></textarea><br>
+	        	<input type = "submit" value = "Import world" class = double_spaced onclick = "console.log('Importing world from JSON.'); Terrain.loadJSON(txtbx_importWorld.value);"><br>
+				<textarea id  = txtbx_importWorld type = text rows = 1 class = double_spaced style = "width: 200;" spellcheck = false></textarea><br>
 
-	        	<br><br>
-	        	<input type = "submit" value = "Export world" class = spaced onclick = "console.log('Exporting world to JSON.'); txtbx_exportWorld.value = Terrain.toJSON();"><br>
-	        	<textarea id  = txtbx_exportWorld type = text rows = 1 class = spaced style = "width: 200;" spellcheck = false></textarea>
+	        	<br>
+	        	<input type = "submit" value = "Export world" class = double_spaced onclick = "console.log('Exporting world to JSON.'); txtbx_exportWorld.value = Terrain.toJSON(Terrain.tiles);"><br>
+	        	<textarea id  = txtbx_exportWorld type = text rows = 1 class = double_spaced style = "width: 200;" spellcheck = false></textarea>
 
 	        	<br><br>
 	        	<h2>Experimental</h2>

@@ -58,45 +58,51 @@ class Terrain {
     this.activate_toggleConductors = false;
   }
 
-  static loadJSON(json) {
-    try {
-      var a = JSON.parse(json);
-      var t = [];
-      for (var i = 0; i < a.length; i++) {
-        var t_1 = [];
-        t_1.length = a[0].length;
-        t.push(t_1);
-      }
+  static fromJSON(json) {
+    var a = JSON.parse(json);
+    var t = [];
+    for (var i = 0; i < a.length; i++) {
+      var t_1 = [];
+      t_1.length = a[0].length;
+      t.push(t_1);
+    }
 
-      for (var i = 0; i < a.length; i++) {
-        for (var j = 0; j < a[0].length; j++) {
-          switch (a[i][j]) {
-            case 0:
-              t[i][j] = Tile.Empty;
-              break;
-            case 1:
-              t[i][j] = Tile.Electron_Head;
-              break;
-            case 2:
-              t[i][j] = Tile.Electron_Tail;
-              break;
-            case 3:
-              t[i][j] = Tile.Conductor;
-              break;
-            case 4:
-              t[i][j] = Tile.Initialiser;
-              break;
-            case 5:
-              t[i][j] = Tile.Toggle_Conductor;
-              break;
-          }
+    for (var i = 0; i < a.length; i++) {
+      for (var j = 0; j < a[0].length; j++) {
+        switch (a[i][j]) {
+          case 0:
+            t[i][j] = Tile.Empty;
+            break;
+          case 1:
+            t[i][j] = Tile.Electron_Head;
+            break;
+          case 2:
+            t[i][j] = Tile.Electron_Tail;
+            break;
+          case 3:
+            t[i][j] = Tile.Conductor;
+            break;
+          case 4:
+            t[i][j] = Tile.Initialiser;
+            break;
+          case 5:
+            t[i][j] = Tile.Toggle_Conductor;
+            break;
         }
       }
+    }
+    if (!t) throw "Unable to parse JSON.";
+    return t;
+  }
+
+  static loadJSON(json) {
+    var t;
+    try {
+      t = this.fromJSON(json);
     } catch (e) {
       console.error(e);
       return;
     }
-    if (!t) throw "Unable to parse JSON.";
     this.tiles = t;
     Camera.init();
   }
@@ -126,17 +132,17 @@ class Terrain {
      Camera.init();
    }
 
-   static toJSON() {
+   static toJSON(tiles) {
     var a = [];
-    for (var i = 0; i < Terrain.tiles.length; i++) {
+    for (var i = 0; i < tiles.length; i++) {
       var b = [];
-      b.length = Terrain.tiles[0].length;
+      b.length = tiles[0].length;
       a.push(b);
     }
 
-    for (var i = 0; i < Terrain.tiles.length; i++) {
-      for (var j = 0; j < Terrain.tiles[0].length; j++) {
-        a[i][j] = Terrain.tiles[i][j].id;
+    for (var i = 0; i < tiles.length; i++) {
+      for (var j = 0; j < tiles[0].length; j++) {
+        a[i][j] = tiles[i][j].id;
       }
     }
     return JSON.stringify(a);
@@ -145,7 +151,7 @@ class Terrain {
    static save(filename) {
       console.log("Saving terrain: " + filename);
       try {
-        localStorage.setItem(filename, Terrain.toJSON());
+        localStorage.setItem(filename, this.toJSON(this.tiles));
       } catch (e) {
         console.error(e);
       }
