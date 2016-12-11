@@ -16,7 +16,7 @@ class App {
         GameTime.init();
         Input.init();
         Terrain.init();
-        Terrain.new(100, 100);
+        Terrain.new(150, 150);
         Camera.init();
 
         App.state = 0;

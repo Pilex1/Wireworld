@@ -96,11 +96,9 @@ class Renderer {
       
       gl.uniformMatrix4fv(this.viewMatrixUniformLocation, gl.FALSE, this.viewMatrix);
       gl.uniformMatrix4fv(this.projectionMatrixUniformLocation, gl.FALSE, this.projectionMatrix);
+      gl.uniformMatrix4fv(this.modelMatrixUniformLocation, gl.FALSE, Terrain.getModelMatrix());
       
-      this.renderInstance = function() {
-         gl.uniformMatrix4fv(this.modelMatrixUniformLocation, gl.FALSE, Terrain.getModelMatrix());
-   	   
-   	   var model = Terrain.generate();
+      this.renderInstance = function(model) {
    	   
    	   //vertices
       	gl.enableVertexAttribArray(model.vertexAttribLocation);
@@ -127,9 +125,12 @@ class Renderer {
       	gl.bindBuffer(gl.ARRAY_BUFFER, null);
       	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
       }
-   	
-   	//render
-   	this.renderInstance();
+
+      var models = Terrain.generate();
+
+      for (var i = 0; i < models.length; i++) {
+         this.renderInstance(models[i]);
+      }
       
      gl.useProgram(null);
    }

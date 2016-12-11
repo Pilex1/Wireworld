@@ -348,10 +348,21 @@ class Terrain {
       var vertices = [];
       var colours = [];
       var elements = [];
+
+      var models = [];
       
       var ptr = 0;
         
       var addData = function(i, j, colour) {
+
+        if (colours.length + 16 >= 131072) {
+          models.push(new Model(vertices, elements, colours, gl.TRIANGLES));
+          vertices = [];
+          colours = [];
+          elements = [];
+          ptr = 0;
+        }
+
          //vertices
          vertices.push(i);
          vertices.push(j + 1);
@@ -412,10 +423,12 @@ class Terrain {
           }
         }
       }
-      
 
-      var model =  new Model(vertices, elements, colours, gl.TRIANGLES);
-      return model;
+      if (vertices.length > 0) {
+        models.push(new Model(vertices, elements, colours, gl.TRIANGLES));
+      }
+
+      return models;
    }
    
    static getModelMatrix() {
