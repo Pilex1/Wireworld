@@ -48,8 +48,6 @@ Tile.Conductor = new Tile(Colour.Yellow, 3);
 Tile.Initialiser = new Tile(Colour.Green, 4);
 Tile.Toggle_Conductor = new Tile(Colour.Orange, 5);
 
-Tile.Invalid = new Tile(Colour.Black, -1);
-
 class Terrain {
 
   static init() {
@@ -302,16 +300,16 @@ class Terrain {
    }
    
    static tileAt(x, y) {
-      if (x < 0 || x >= this.tiles.length || y < 0 || y >= this.tiles[x].length) return Tile.Invalid;
+      if (x < 0 || x >= this.tiles.length || y < 0 || y >= this.tiles[x].length) return "invalid";
       return this.tiles[x][y];
    }
 
    static copySelection() {
     if (!this.selection_x1) return;
     this.selection_copy = [];
-    for (var i = Math.min(this.selection_x1, this.selection_x2); i <= Math.max(this.selection_x1, this.selection_x2); i++) {
+    for (var i = Math.max(Math.min(this.selection_x1, this.selection_x2), 0); i <= Math.min(Math.max(this.selection_x1, this.selection_x2), this.tiles.length); i++) {
       var b = [];
-      for (var j = Math.min(this.selection_y1, this.selection_y2); j <= Math.max(this.selection_y1, this.selection_y2); j++) {
+      for (var j = Math.max(Math.min(this.selection_y1, this.selection_y2), 0); j <= Math.min(Math.max(this.selection_y1, this.selection_y2), this.tiles[0].length); j++) {
         b.push(this.tiles[i][j]);
       }
       this.selection_copy.push(b);
@@ -326,7 +324,7 @@ class Terrain {
    static deleteSelection() {
     for (var i = Math.min(this.selection_x1, this.selection_x2); i <= Math.max(this.selection_x1, this.selection_x2); i++) {
       for (var j = Math.min(this.selection_y1, this.selection_y2); j <= Math.max(this.selection_y1, this.selection_y2); j++) {
-        this.tiles[i][j] = Tile.Empty;
+        this.setTile(i, j, Tile.Empty);
       }
     }
    }
@@ -335,7 +333,7 @@ class Terrain {
     for (var i = 0; i < this.selection_copy.length; i++) {
       for (var j = 0; j < this.selection_copy[0].length; j++) {
         if (this.selection_copy[i][j].id === 0) continue;
-        this.tiles[x+i][y+j] = this.selection_copy[i][j];
+        this.setTile(x+i, y+j, this.selection_copy[i][j]);
       }
     }
     this.removeSelection();

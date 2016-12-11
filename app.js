@@ -102,7 +102,7 @@ class App {
     			break;
     		case "copy":
     			if (intersect === "invalid") break;
-    			Terrain.setSelection(intersect[0], intersect[1], intersect[0], intersect[1], Tile.Invalid.colour.clone());
+    			Terrain.setSelection(intersect[0], intersect[1], intersect[0], intersect[1], new Colour(0, 0, 0, 0));
     			if (Input.curMouse[0]) {
     				Terrain.placeSelection(intersect[0], intersect[1]);
     				App.selection_pressed = "copied";
@@ -119,7 +119,7 @@ class App {
     			break;
     		case "move":
     			if (intersect === "invalid") break;
-    			Terrain.setSelection(intersect[0], intersect[1], intersect[0], intersect[1], Tile.Invalid.colour.clone());
+    			Terrain.setSelection(intersect[0], intersect[1], intersect[0], intersect[1], new Colour(0, 0, 0, 0));
     			if (Input.curMouse[0]) {
     				Terrain.placeSelection(intersect[0], intersect[1]);
     				App.selection_pressed = "copied";
